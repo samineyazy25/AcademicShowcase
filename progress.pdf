@@ -1,6 +1,9 @@
 The project focuses on comparing Dijkstra's algorithm and a modified BFS using a layered graph on real highway network data to analyze
-tradeoffs between shortest distance and fewest highway switches. 
+tradeoffs between shortest distance and fewest highway switches.
 At this stage, we are still in the early phases of the project and have not yet begun implementation.
 The plans remain consistent with the original proposal.
-Moving forward, we plan to begin by implementing both algorithms, 
+Moving forward, we plan to begin by implementing both algorithms,
 run comparisons across multiple start and end point pairs.
+
+Progress Week 2
+We are doing research, seeing the runtime differrence in the implementation of Breadth-First Search and Dijkstra's Algorithm.

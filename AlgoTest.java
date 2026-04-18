@@ -45,7 +45,8 @@ public class AlgoTest {
                 }
             }
 
-            if (u == -1) break; // safety check
+            if (u == -1)
+                break;
 
             visited[u] = true;
 
@@ -92,29 +93,29 @@ public class AlgoTest {
     }
 
     public static void main(String[] args) {
+        for (int size = 100; size <= 5000; size += 100) {
 
-        Random rand = new Random();
+            for (int i = 0; i < 5; i++) {
+                Random rand = new Random();
 
-        int size = rand.nextInt(1000) + 1;
+                createGraph(size);
 
-        createGraph(size);
+                int start = 0;
+                int end = size - 1;
 
-        int start = 0;
-        int end = size - 1;
+                long dStart = System.nanoTime();
+                dijkstra(start, end);
+                long dEnd = System.nanoTime();
 
-        long dStart = System.nanoTime();
-        dijkstra(start, end);
-        long dEnd = System.nanoTime();
+                long bStart = System.nanoTime();
+                bfs(start, end);
+                long bEnd = System.nanoTime();
 
-        long bStart = System.nanoTime();
-        bfs(start, end);
-        long bEnd = System.nanoTime();
+                double dTime = (dEnd - dStart) / 1000000000.0;
+                double bTime = (bEnd - bStart) / 1000000000.0;
 
-        double dTime = (dEnd - dStart) / 1000000000.0;
-        double bTime = (bEnd - bStart) / 1000000000.0;
-
-        System.out.println("--------------SIZE: " + size + "--------------");
-        System.out.println("Dijkstra: " + dTime);
-        System.out.println("Breadth-First Search: " + bTime);
+                System.out.println(size + " " + dTime + " " + bTime);
+            }
+        }
     }
 }
