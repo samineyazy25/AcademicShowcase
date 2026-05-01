@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>METAL HDX — CS 385 Siena University</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="shell">
+  <div id="panel">
+    <div id="ph">
+      <div id="brand">
+        <div id="brand-icon">
+          <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
+            <circle cx="6.5" cy="6.5" r="2.5" fill="#60a5fa"/>
+            <circle cx="1.5" cy="1.5" r="1.5" fill="#60a5fa" opacity=".4"/>
+            <circle cx="11.5" cy="1.5" r="1.5" fill="#60a5fa" opacity=".4"/>
+            <circle cx="1.5" cy="11.5" r="1.5" fill="#60a5fa" opacity=".4"/>
+            <circle cx="11.5" cy="11.5" r="1.5" fill="#60a5fa" opacity=".4"/>
+            <line x1="4" y1="4" x2="1.5" y2="1.5" stroke="#60a5fa" stroke-width="1" opacity=".4"/>
+            <line x1="9" y1="4" x2="11.5" y2="1.5" stroke="#60a5fa" stroke-width="1" opacity=".4"/>
+            <line x1="4" y1="9" x2="1.5" y2="11.5" stroke="#60a5fa" stroke-width="1" opacity=".4"/>
+            <line x1="9" y1="9" x2="11.5" y2="11.5" stroke="#60a5fa" stroke-width="1" opacity=".4"/>
+          </svg>
+        </div>
+        <span id="brand-name">METAL HDX</span>
+        <span id="brand-tag">CS 385 · Siena</span>
+      </div>
+      <div id="pills">
+        <button class="pill on" id="pd" onclick="setAlgo('dijk')">Dijkstra</button>
+        <button class="pill" id="pb" onclick="setAlgo('bfs')">BFS · min switches</button>
+      </div>
+    </div>
+
+    <div id="nb">
+      <div class="nbadge pick" id="sbd" onclick="setSel('start')">
+        <div class="nd" style="background:var(--green)"></div>
+        <div><div class="nl">Start</div></div>
+        <div class="nv" id="snv">V0</div>
+      </div>
+      <div class="nbadge" id="ebd" onclick="setSel('end')">
+        <div class="nd" style="background:var(--red)"></div>
+        <div><div class="nl">End</div></div>
+        <div class="nv" id="env">V47</div>
+      </div>
+    </div>
+
+    <div id="ctrl-area">
+      <div id="ctrl-top">
+        <button class="btn go" id="br" onclick="onStart()">
+          <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor"><polygon points="2,1 9,5 2,9"/></svg>
+          Start
+        </button>
+        <button class="btn" id="bs" onclick="onStep()" disabled>
+          <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor"><rect x="1" y="1" width="3" height="8" rx="1"/><polygon points="5.5,1 9,5 5.5,9"/></svg>
+          Step
+        </button>
+        <button class="btn" id="bp" onclick="onPlay()" disabled>
+          <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor" id="pico"><polygon points="2,1 9,5 2,9"/></svg>
+          <span id="plbl">Play</span>
+        </button>
+        <div id="spd-wrap">
+          <label>Speed</label>
+          <select id="spd">
+            <option value="700">1x</option>
+            <option value="300" selected>2x</option>
+            <option value="100">4x</option>
+            <option value="25">8x</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn rst" onclick="onReset()">
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8.5 1.5A4.5 4.5 0 1 0 9.5 5"/><polyline points="7,0 9.5,1.5 7,3"/></svg>
+        Reset
+      </button>
+    </div>
+
+    <div id="sb-row">
+      <div id="sd"></div>
+      <span id="st">Click a node on the map to set your start point</span>
+    </div>
+
+    <div id="pcs">
+      <div id="pch">
+        <span>Pseudocode</span>
+        <span id="sctr">Step 0</span>
+      </div>
+      <div id="pcl"></div>
+    </div>
+
+    <div id="dss">
+      <div class="db">
+        <div class="dh"><span class="dt" id="d1t" style="color:var(--blue)">Priority queue</span><span class="dc" id="d1c">0 items</span></div>
+        <div class="dbody" id="d1"><span class="di e">empty</span></div>
+      </div>
+      <div class="db">
+        <div class="dh"><span class="dt" style="color:var(--green)">Spanning tree</span><span class="dc" id="d2c">0 nodes</span></div>
+        <div class="dbody" id="d2"><span class="di e">empty</span></div>
+      </div>
+      <div class="db">
+        <div class="dh"><span class="dt" style="color:var(--purple)">Visited</span><span class="dc" id="d3c">0 nodes</span></div>
+        <div class="dbody" id="d3"><span class="di e">empty</span></div>
+      </div>
+      <div class="db">
+        <div class="dh"><span class="dt" style="color:var(--cyan)">Final path</span><span class="dc" id="d4c">—</span></div>
+        <div class="dbody" id="d4"><span class="di e">not yet found</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ma">
+    <canvas id="cv"></canvas>
+    <div id="mtl">
+      <div id="mstat">0 vertices · 0 edges</div>
+      <div id="mhint"></div>
+    </div>
+    <div id="leg">
+      <div class="lgt">Node state</div>
+      <div class="lr"><div class="ld" style="background:#1e3a5f;border:1.5px solid #60a5fa"></div>Undiscovered</div>
+      <div class="lr"><div class="ld" style="background:#713f12;border:1.5px solid #fbbf24"></div>In queue</div>
+      <div class="lr"><div class="ld" style="background:#7f1d1d;border:1.5px solid #f87171"></div>Current</div>
+      <div class="lr"><div class="ld" style="background:#14532d;border:1.5px solid #4ade80"></div>In tree</div>
+      <div class="lr"><div class="ld" style="background:#14532d;border:2px solid #fff"></div>Start / End</div>
+      <div style="height:5px"></div>
+      <div class="lgt">Edge state</div>
+      <div class="lr"><div class="ll" style="background:#4ade80"></div>Tree edge</div>
+      <div class="lr"><div class="ll" style="background:#22d3ee"></div>Final path</div>
+    </div>
+    <div id="rp">
+      <div id="rp-icon">✓</div>
+      <div id="rp-title">Path found!</div>
+      <div id="rp-sub"></div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
